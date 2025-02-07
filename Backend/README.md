@@ -1,160 +1,211 @@
-## /users/register Endpoint Documentation
+# Backend API Documentation
+
+## `/users/register` Endpoint
 
 ### Description
-Registers a new user in the system. The endpoint expects a JSON payload with user details. On success, it returns a JWT token along with the user data.
 
-### HTTP Request
-- **Method:** POST
-- **Endpoint:** /users/register
+Registers a new user by creating a user account with the provided information.
+
+### HTTP Method
+
+`POST`
 
 ### Request Body
 
-- **fullname:**  
-  - **firstname:** string (required, at least 3 characters)  
-  - **lastname:** string (optional, at least 3 characters if provided)
-- **email:** string (required, must be a valid email)
-- **password:** string (required, at least 6 characters)
+The request body should be in JSON format and include the following fields:
 
-Example:
-```json
-{
-  "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
-  },
-  "email": "john.doe@example.com",
-  "password": "securepassword"
-}
-```
+- `fullname` (object):
+  - `firstname` (string, required): User's first name (minimum 3 characters).
+  - `lastname` (string, optional): User's last name (minimum 3 characters).
+- `email` (string, required): User's email address (must be a valid email).
+- `password` (string, required): User's password (minimum 6 characters).
 
-### Responses
+### Example Response
 
-#### Success (201 Created)
-```json
-{
-  "token": "JWT_TOKEN",
-  "user": { /* user object details */ }
-}
-```
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+  - `password` (string): User's password (minimum 6 characters).
+- `token` (String): JWT Token
 
-#### Validation Error (400 Bad Request)
-```json
-{
-  "errors": [
-    {
-      "msg": "Error message",
-      "param": "field",
-      "location": "body"
-    }
-  ]
-}
-```
-
-#### User Already Exists (400 Bad Request)
-```json
-{
-  "message": "User already exist"
-}
-```
-
-#### Malformed JSON (400 Bad Request)
-```json
-{
-  "message": "Malformed JSON in request body"
-}
-```
-
-## /users/login Endpoint Documentation
+## `/users/login` Endpoint
 
 ### Description
-Authenticates a user. The endpoint expects a JSON payload with email and password. On success, it returns a JWT token along with the user data.
 
-### HTTP Request
-- **Method:** POST
-- **Endpoint:** /users/login
+Authenticates a user using their email and password, returning a JWT token upon successful login.
+
+### HTTP Method
+
+`POST`
+
+### Endpoint
+
+`/users/login`
 
 ### Request Body
 
-- **email:** string (required, must be a valid email)
-- **password:** string (required, at least 6 characters)
+The request body should be in JSON format and include the following fields:
 
-Example:
-```json
-{
-  "email": "john.doe@example.com",
-  "password": "securepassword"
-}
-```
+- `email` (string, required): User's email address (must be a valid email).
+- `password` (string, required): User's password (minimum 6 characters).
 
-### Responses
+### Example Response
 
-#### Success (200 OK)
-```json
-{
-  "token": "JWT_TOKEN",
-  "user": { /* user object details */ }
-}
-```
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+  - `password` (string): User's password (minimum 6 characters).
+- `token` (String): JWT Token
 
-#### Authentication Error (401 Unauthorized)
-```json
-{
-  "message": "Invalid email or password "
-}
-```
-
-#### Validation Error (400 Bad Request)
-```json
-{
-  "errors": [
-    {
-      "msg": "Error message",
-      "param": "field",
-      "location": "body"
-    }
-  ]
-}
-```
-
-## /users/profile Endpoint Documentation
+## `/users/profile` Endpoint
 
 ### Description
-Fetches the authenticated user's profile. Requires a valid JWT token provided in the `Authorization` header or via cookie.
 
-### HTTP Request
-- **Method:** GET
-- **Endpoint:** /users/profile
+Retrieves the profile information of the currently authenticated user.
 
-### Responses
+### HTTP Method
 
-#### Success (200 OK)
-```json
-{
-  "user": { /* authenticated user object details */ }
-}
-```
+`GET`
 
-#### Unauthorized (401 Unauthorized)
-```json
-{
-  "message": "Authentication failed"
-}
-```
+### Authentication
 
-## /users/logout Endpoint Documentation
+Requires a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
+### Example Response
+
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+
+
+
+## `/users/logout` Endpoint
 
 ### Description
-Logs the user out by clearing the authentication cookie and blacklisting the current token.
 
-### HTTP Request
-- **Method:** GET
-- **Endpoint:** /users/logout
+Logout the current user and blacklist the token provided in cookie or headers
 
-### Responses
+### HTTP Method
 
-#### Success (200 OK)
-```json
-{
-  "message": "Logout successfully"
-}
-```
+`GET`
+
+### Authentication
+
+Requires a valid JWT token in the Authorization header or cookie:
+
+- `user` (object):
+  - `fullname` (object).
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).   
+  - `email` (string): User's email address (must be a valid email).
+  - `password` (string): User's password (minimum 6 characters).
+- `token` (String): JWT Token## `/captains/register` Endpoint
+
+### Description
+
+Registers a new captain by creating a captain account with the provided information.
+
+### HTTP Method
+
+`POST`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `fullname` (object):
+  - `firstname` (string, required): Captain's first name (minimum 3 characters)
+  - `lastname` (string, optional): Captain's last name
+- `email` (string, required): Captain's email address (must be a valid email)
+- `password` (string, required): Captain's password (minimum 6 characters)
+- `vehicle` (object):
+  - `color` (string, required): Vehicle color (minimum 3 characters)
+  - `plate` (string, required): Vehicle plate number (minimum 3 characters)
+  - `capacity` (number, required): Vehicle passenger capacity (minimum 1)
+  - `vehicleType` (string, required): Type of vehicle (must be 'car', 'motorcycle', or 'auto')
+
+### Example Response
+
+
+## `/captains/register` Endpoint
+
+### Description
+
+Registers a new captain by creating a captain account with the provided information.
+
+### HTTP Method
+
+`POST`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `fullname` (object):
+  - `firstname` (string, required): Captain's first name (minimum 3 characters).
+  - `lastname` (string, optional): Captain's last name (minimum 3 characters).
+- `email` (string, required): Captain's email address (must be a valid email).
+- `password` (string, required): Captain's password (minimum 6 characters).
+- `vehicle` (object):
+  - `color` (string, required): Vehicle color (minimum 3 characters).
+  - `plate` (string, required): Vehicle plate number (minimum 3 characters).
+  - `capacity` (number, required): Vehicle passenger capacity (minimum 1).
+  - `vehicleType` (string, required): Type of vehicle (must be 'car', 'motorcycle', or 'auto').
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object).
+    - `firstname` (string): Captain's first name (minimum 3 characters).
+    - `lastname` (string): Captain's last name (minimum 3 characters).   
+  - `email` (string): Captain's email address (must be a valid email).
+  - `password` (string): Captain's password (minimum 6 characters).
+  - `vehicle` (object):
+    - `color` (string): Vehicle color.
+    - `plate` (string): Vehicle plate number.
+    - `capacity` (number): Vehicle passenger capacity.
+    - `vehicleType` (string): Type of vehicle.
+- `token` (String): JWT Token
+
+## `/captains/login` Endpoint
+
+### Description
+
+Authenticates a captain using their email and password, returning a JWT token upon successful login.
+
+### HTTP Method
+
+`POST`
+
+### Endpoint
+
+`/captains/login`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `email` (string, required): Captain's email address (must be a valid email).
+- `password` (string, required): Captain's password (minimum 6 characters).
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object).
+    - `firstname` (string): Captain's first name (minimum 3 characters).
+    - `lastname` (string): Captain's last name (minimum 3 characters).   
+  - `email` (string): Captain's email address (must be a valid email).
+  - `password` (string): Captain's password (minimum 6 characters).
+  - `vehicle` (object):
+    - `color` (string): Vehicle color.
+    - `plate` (string): Vehicle plate number.
+    - `capacity` (number): Vehicle passenger capacity.
+    - `vehicleType` (string): Type of vehicle.
+- `token` (String): JWT Token
