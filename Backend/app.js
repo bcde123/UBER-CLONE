@@ -3,6 +3,7 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const cookieParser = require('cookie-parser');
 const connectToDB = require('./db/db'); // <-- Uncommented line
 const userRoutes = require('./routes/user.routes');
 
@@ -11,6 +12,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Error-handling middleware for malformed JSON
 app.use((err, req, res, next) => {
